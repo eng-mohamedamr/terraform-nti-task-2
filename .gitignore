@@ -1,0 +1,19 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+.terraform.lock.hcl
+
+# Terraform generated/build files
+**/dist/
+
+# SSH private keys
+*.pem
+*.key
+
+# OS/editor files
+.DS_Store
+.vscode/
+.idea/

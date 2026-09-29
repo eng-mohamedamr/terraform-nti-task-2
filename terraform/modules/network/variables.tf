@@ -22,7 +22,12 @@ variable "private_subnet_range" {
   type    = list(number)
   default = [2, 2]
 }
-variable "required_az_count" {
+variable "az_count" {
   type    = number
   default = 2
+}
+locals {
+  az_names          = slice(data.aws_availability_zones.available.names, 0, var.az_count)
+  is_prod           = terraform.workspace == "prod"
+  nat_gateway_count = local.is_prod ? length(local.az_names) : 1
 }

@@ -1,30 +1,31 @@
-resource "aws_security_group" "ssh" {
-  name        = "ssh-from-workstation"
-  description = "Allow SSH only from workstation"
+resource "aws_security_group" "restricted_sg" {
+  name        = "${terraform.workspace}-restricted-sg"
+  description = "Allow SSH only from my IP dynamically"
+  vpc_id      = aws_vpc.main.id
 
-  ingress {
-    description = "SSH from workstation"
-
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-
-    cidr_blocks = [
-      "${local.workstation_ip}/32"
-    ]
+  dynamic "ingress" {
+    for_each = var.ingress
+    content {
+      description = ingress.value.description
+      from_port   = ingress.value.from_port
+      to_port     = ingress.value.to_port
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+    }
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "egress" {
+    for_each = var.egress
+    content {
+      description = egress.value.description
+      from_port   = egress.value.from_port
+      to_port     = egress.value.to_port
+      protocol    = egress.value.protocol
+      cidr_blocks = egress.value.cidr_blocks
+    }
   }
-}
-data "http" "my_ip" {
-  url = "https://icanhazip.com"
-}
 
-locals {
-  workstation_ip = chomp(data.http.my_ip.response_body)
+  tags = {
+    Name = "${terraform.workspace}-restricted-sg"
+  }
 }

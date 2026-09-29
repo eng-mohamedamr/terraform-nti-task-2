@@ -4,18 +4,18 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
       http = {
-      source  = "hashicorp/http"
+        source = "hashicorp/http"
+      }
     }
-    }
-    
   }
-    backend "s3" {
+
+  backend "s3" {
     bucket       = "s3-bucket-for-state-file-terraform"
     key          = "state_file/terraform.tfstate"
-    region       =  "eu-north-1"
+    region       = "eu-north-1"
     encrypt      = true
-    use_lockfile = true   # S3-native locking, Terraform >= 1.10
-    profile = "default"
+    use_lockfile = true # S3-native locking, Terraform >= 1.10
+    # Allow Terraform to use active AWS credentials from the environment instead of the unsupported CLI login profile.
   }
 }
 
