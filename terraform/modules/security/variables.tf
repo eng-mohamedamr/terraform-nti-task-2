@@ -48,3 +48,15 @@ variable "egress" {
     cidr_blocks = ["0.0.0.0/0"]
   }]
 }
+variable vpc_id {
+  description = "The VPC ID where the security group will be created"
+  type        = string
+}
+variable "public_subnet_ids" {
+  description = "List of public subnet IDs where the security group will be created"
+  type = list(string)
+}
+variable "private_subnet_ids" {
+  description = "List of private subnet IDs where the security group will be created"
+  type = list(string)
+}

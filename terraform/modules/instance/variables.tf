@@ -1,13 +1,3 @@
-variable "key_algorithm" {
-  description = "The algorithm to use for the SSH key pair"
-  type        = string
-  default     = "RSA"
-}
-variable "algorithm_bits" {
-  description = "The algorithm to use for the SSH key pair"
-  type        = number
-  default     = 4096
-}
 variable "permission" {
   description = "The permission to use for the SSH key pair"
   type        = string
@@ -23,8 +13,7 @@ variable "instance_ami" {
   type        = string
   default     = "ami-0aba19e56f3eaec05"
 }
-variable "instance_name" {
-  description = "The name to use for the EC2 instance"
-  type        = string
-  default     = "Bastion-Instance"
+variable "public_subnet_ids" {
+  description = "List of public subnet IDs where the EC2 instance will be launched"
+  type = list(string)
 }

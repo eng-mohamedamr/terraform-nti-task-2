@@ -1,7 +1,7 @@
 resource "aws_security_group" "restricted_sg" {
   name        = "${terraform.workspace}-restricted-sg"
   description = "Allow SSH only from my IP dynamically"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 
   dynamic "ingress" {
     for_each = var.ingress
